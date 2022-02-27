@@ -30,3 +30,5 @@ replay_pid*
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/Maven__com_formdev_flatlaf_intellij_themes_2_0_2.xml
+.idea/libraries/Maven__eu_neilalexander_jnacl_1_0_0.xml
+.idea/libraries/Maven__org_zeromq_jeromq_0_5_2.xml

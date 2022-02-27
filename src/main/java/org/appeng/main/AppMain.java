@@ -1,10 +1,8 @@
 package org.appeng.main;
 
+import com.formdev.flatlaf.icons.FlatAscendingSortIcon;
 import org.appeng.gui.AppWindow;
-import org.appeng.gui.components.organizational.DataPane;
-import org.appeng.gui.components.organizational.StatusBar;
-import org.appeng.gui.components.organizational.TabbedPane;
-import org.appeng.gui.components.organizational.TabbedPaneManager;
+import org.appeng.gui.components.organizational.*;
 import org.appeng.lookandfeel.LookAndFeelManager;
 import org.appeng.util.resources.images.ImageLoaderUtil;
 
@@ -39,7 +37,7 @@ public class AppMain {
         tabbedPaneManager = new TabbedPaneManager();
 
         // create new panes
-        tabbedPaneManager.registerPane(new TabbedPane("panel 1", null));
+        tabbedPaneManager.registerPane(new ControlPane("Realtime Boat Dashboard", null));
 
         tabbedPaneManager.registerPane(new TabbedPane("panel 2", null));
 
