@@ -2,6 +2,7 @@ package org.appeng.main;
 
 import org.appeng.gui.AppWindow;
 import org.appeng.gui.components.organizational.DataPane;
+import org.appeng.gui.components.organizational.StatusBar;
 import org.appeng.gui.components.organizational.TabbedPane;
 import org.appeng.gui.components.organizational.TabbedPaneManager;
 import org.appeng.lookandfeel.LookAndFeelManager;
@@ -13,6 +14,7 @@ public class AppMain {
 
     private AppWindow window;
     private TabbedPaneManager tabbedPaneManager;
+    private StatusBar statusBar;
 
     private DataPane dataPane;
 
@@ -49,6 +51,10 @@ public class AppMain {
         dataPane = new DataPane();
 
         window.add(dataPane, BorderLayout.WEST);
+
+        statusBar = new StatusBar();
+
+        window.add(statusBar, BorderLayout.SOUTH);
 
         window.setVisible(true);
     }

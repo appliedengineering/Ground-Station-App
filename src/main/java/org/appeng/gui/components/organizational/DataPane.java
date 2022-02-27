@@ -31,31 +31,36 @@ public class DataPane extends JPanel {
 
         this.setLayout(new BorderLayout());
 
-        BoldLabel label = new BoldLabel("Dashboard Panel");
+        JLabel label = new JLabel("Dashboard Panel");
 
         int padding = 20;
-        label.setBorder(
-                new EmptyBorder(padding, padding, padding, 0)
-        );
+//        label.setBorder(
+//                new EmptyBorder(padding, padding, padding, 0)
+//        );
 
-        this.add(label, BorderLayout.NORTH);
+
+
 
         contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
         dashboardScroll = new JScrollPane(contentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         dashboardScroll.setBorder(null);
-        this.setBorder(
-                BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY)
-                );
+//        this.setBorder(
+//                BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY)
+//                );
 
         contentPane.setBorder(new EmptyBorder(padding, padding, padding, padding));
+
+        // contentPane.add(label);
 
         for (String chartId : DataParametersConstants.DATA_PROPERTIES_IDS) {
             RealtimeChart newChart = new RealtimeChart(chartId);
             chartHashMap.put(chartId, newChart);
             contentPane.add(newChart);
         }
+
+
 
         this.add(dashboardScroll, BorderLayout.CENTER);
 

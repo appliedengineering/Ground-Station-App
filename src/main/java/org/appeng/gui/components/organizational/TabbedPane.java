@@ -1,6 +1,7 @@
 package org.appeng.gui.components.organizational;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TabbedPane extends JPanel {
 
@@ -13,6 +14,13 @@ public class TabbedPane extends JPanel {
     public TabbedPane(String title, Icon icon) {
         this.title = title;
         this.icon = icon;
+
+        init();
+    }
+
+    private void init() {
+        Color bg = new Color(34, 34, 34);
+        this.setBackground(bg);
     }
 
     // GETTERS AND SETTERS
