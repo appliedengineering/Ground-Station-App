@@ -44,7 +44,8 @@ public class DataPane extends JPanel {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
         dashboardScroll = new JScrollPane(contentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        dashboardScroll.setBorder(
+        dashboardScroll.setBorder(null);
+        this.setBorder(
                 BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY)
                 );
 
@@ -67,6 +68,8 @@ public class DataPane extends JPanel {
                     phase += 1 * Math.PI * 1 / 200.0;
                     for (String chartId : DataParametersConstants.DATA_PROPERTIES_IDS) {
                         RealtimeChart chart = chartHashMap.get(chartId);
+                        // chart.getDataX().add(Math.random()*100);
+                        // chart.getDataY().add(phase);
                         chart.updateChartWithNewData(getSineData(phase).get(0), getSineData(phase).get(1));
                     }
                     try {

@@ -5,7 +5,10 @@ public class DataParametersConstants {
     public static final String[] DATA_PROPERTIES_IDS = {
             "RPM",
             "PWM",
-            "Temperature"
+            "Temperature",
+            "Frequency",
+            "Throttle",
+            "PSU Mode"
     };
 
 }
