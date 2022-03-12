@@ -24,6 +24,8 @@ public class AppMain {
 
     public void initWindow() {
 
+        backend = new Backend();
+
         LookAndFeelManager.setupDarkMode();
 
         window = new AppWindow();
@@ -39,11 +41,11 @@ public class AppMain {
         tabbedPaneManager = new TabbedPaneManager();
 
         // create new panes
-        tabbedPaneManager.registerPane(new SettingsPane("Realtime Boat Dashboard", null));
+        tabbedPaneManager.registerPane(new TabbedPane("Realtime Boat Dashboard", null, backend.getDataManager()));
 
-        tabbedPaneManager.registerPane(new SettingsPane("Settings", null));
+        tabbedPaneManager.registerPane(new SettingsPane("Settings", null, backend.getDataManager()));
 
-        tabbedPaneManager.registerPane(new TabbedPane("panel 3", null));
+        tabbedPaneManager.registerPane(new TabbedPane("panel 3", null, backend.getDataManager()));
 
         window.add(tabbedPaneManager, BorderLayout.CENTER);
 
