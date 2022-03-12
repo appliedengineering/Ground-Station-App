@@ -1,6 +1,6 @@
 package org.appeng.main;
 
-import com.formdev.flatlaf.icons.FlatAscendingSortIcon;
+import org.appeng.backend.Backend;
 import org.appeng.gui.AppWindow;
 import org.appeng.gui.components.organizational.*;
 import org.appeng.lookandfeel.LookAndFeelManager;
@@ -13,6 +13,8 @@ public class AppMain {
     private AppWindow window;
     private TabbedPaneManager tabbedPaneManager;
     private StatusBar statusBar;
+
+    private Backend backend;
 
     private DataPane dataPane;
 
@@ -37,9 +39,9 @@ public class AppMain {
         tabbedPaneManager = new TabbedPaneManager();
 
         // create new panes
-        tabbedPaneManager.registerPane(new ControlPane("Realtime Boat Dashboard", null));
+        tabbedPaneManager.registerPane(new SettingsPane("Realtime Boat Dashboard", null));
 
-        tabbedPaneManager.registerPane(new TabbedPane("panel 2", null));
+        tabbedPaneManager.registerPane(new SettingsPane("Settings", null));
 
         tabbedPaneManager.registerPane(new TabbedPane("panel 3", null));
 
