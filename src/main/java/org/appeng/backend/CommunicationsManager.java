@@ -9,9 +9,24 @@ public class CommunicationsManager {
     ZMQ.Socket boatDataSocket;
     ZMQ.Socket timestampSocket;
 
+    private Runnable boatDataManager;
+    private Thread boatDataReceiverThread;
+    private Backend backend;
+
     public void init(){
         context = new ZContext();
         boatDataSocket = context.createSocket(SocketType.SUB);
         timestampSocket = context.createSocket(SocketType.REQ);
+    }
+
+
+    public void start() {
+        startReceivingBoatData();
+    }
+
+    public void startReceivingBoatData(){
+        boatDataManager = new BoatDataManager(context, boatDataSocket);
+        boatDataReceiverThread = new Thread(boatDataManager);
+        boatDataReceiverThread.start();
     }
 }

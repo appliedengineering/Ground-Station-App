@@ -1,6 +1,6 @@
 package org.appeng.main;
 
-import com.formdev.flatlaf.icons.FlatAscendingSortIcon;
+import org.appeng.backend.Backend;
 import org.appeng.gui.AppWindow;
 import org.appeng.gui.components.organizational.*;
 import org.appeng.lookandfeel.LookAndFeelManager;
@@ -14,6 +14,8 @@ public class AppMain {
     private TabbedPaneManager tabbedPaneManager;
     private StatusBar statusBar;
 
+    private Backend backend;
+
     private DataPane dataPane;
 
     public void start(){
@@ -21,6 +23,8 @@ public class AppMain {
     }
 
     public void initWindow() {
+
+        backend = new Backend();
 
         LookAndFeelManager.setupDarkMode();
 
@@ -37,11 +41,11 @@ public class AppMain {
         tabbedPaneManager = new TabbedPaneManager();
 
         // create new panes
-        tabbedPaneManager.registerPane(new ControlPane("Realtime Boat Dashboard", null));
+        tabbedPaneManager.registerPane(new TabbedPane("Realtime Boat Dashboard", null, backend.getDataManager()));
 
-        tabbedPaneManager.registerPane(new TabbedPane("panel 2", null));
+        tabbedPaneManager.registerPane(new SettingsPane("Settings", null, backend.getDataManager()));
 
-        tabbedPaneManager.registerPane(new TabbedPane("panel 3", null));
+        tabbedPaneManager.registerPane(new TabbedPane("panel 3", null, backend.getDataManager()));
 
         window.add(tabbedPaneManager, BorderLayout.CENTER);
 
