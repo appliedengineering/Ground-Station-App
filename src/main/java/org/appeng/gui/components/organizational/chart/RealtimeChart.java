@@ -1,12 +1,16 @@
 package org.appeng.gui.components.organizational.chart;
 
+import org.appeng.backend.DataPoint;
 import org.knowm.xchart.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.IntToDoubleFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RealtimeChart extends JPanel {
 
@@ -59,7 +63,20 @@ public class RealtimeChart extends JPanel {
         this.add(panel, BorderLayout.CENTER);
     }
 
-    public void updateChartWithNewData(List<Double> dataX, List<Double> dataY){
+    public void updateChartWithNewData(List<DataPoint> data){
+        int viewRange = 50;
+
+        data = data.subList(data.size()-Math.min(data.size(), viewRange), data.size());
+        Collections.reverse(data);
+
+        List<Double> dataX = new ArrayList<>(), dataY = new ArrayList<>();
+        for (DataPoint dp :
+                data) {
+            dataX.add(dp.x);
+            dataY.add(dp.y);
+        }
+
+
         XYSeries series = chart.updateXYSeries("defaultSeries", dataX, dataY, null);
         series.setLineColor(Color.GREEN);
         panel.revalidate();

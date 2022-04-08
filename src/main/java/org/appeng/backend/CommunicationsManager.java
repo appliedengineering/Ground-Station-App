@@ -13,6 +13,10 @@ public class CommunicationsManager {
     private Thread boatDataReceiverThread;
     private Backend backend;
 
+    public CommunicationsManager(Backend backend) {
+        this.backend = backend;
+    }
+
     public void init(){
         context = new ZContext();
         boatDataSocket = context.createSocket(SocketType.SUB);
@@ -25,7 +29,7 @@ public class CommunicationsManager {
     }
 
     public void startReceivingBoatData(){
-        boatDataManager = new BoatDataManager(context, boatDataSocket);
+        boatDataManager = new BoatDataManager(context, boatDataSocket, backend.getDataManager());
         boatDataReceiverThread = new Thread(boatDataManager);
         boatDataReceiverThread.start();
     }

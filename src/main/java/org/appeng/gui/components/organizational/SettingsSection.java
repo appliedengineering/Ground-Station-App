@@ -7,21 +7,25 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NetworkingSettingsSection extends JPanel {
+public class SettingsSection extends JPanel {
 
     private DataManager dataManager;
-    private String[] labels = {"IP Address: ", "Port: "};
-    private String[] dataIds = {"boatDataIpAddress", "boatDataPort"};
+    private String[] labels;
+    private String[] dataIds;
     private List<SettingsTextField> textFields = new ArrayList<>();
 
-    public NetworkingSettingsSection(DataManager dataManager) {
+    public SettingsSection(DataManager dataManager) {
         this.dataManager = dataManager;
+    }
 
-        init();
+    public void setFields(String[] labels, String[] dataIds){
+        this.labels = labels;
+        this.dataIds = dataIds;
     }
 
     public void init() {
@@ -56,22 +60,46 @@ public class NetworkingSettingsSection extends JPanel {
 
     private void initTextFields() {
         for (int i = 0; i < dataIds.length; i++) {
-            SettingsTextField textField = new SettingsTextField(10);
+            SettingsTextField textField = new SettingsTextField(10, dataIds[i]);
             textField.setToolTipText(dataIds[i]);
             textFields.add(textField);
         }
 
     }
 
-    private class SettingsTextField extends JTextField {
-
-        public SettingsTextField(int columns) {
+    private class SettingsTextField extends JTextField implements DocumentListener {
+        private final String dataId;
+        public SettingsTextField(int columns, String dataId) {
             super(columns);
-            
+            this.dataId = dataId;
             loadExistingData();
+
+            this.getDocument().addDocumentListener(this);
         }
 
         private void loadExistingData() {
+            this.setText((String) dataManager.getSettingsManager().settings.get(dataId));
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            update();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            update();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            update();
+        }
+
+        private void update(){
+            System.out.println("save settings");
+            dataManager.getSettingsManager().settings.setProperty(dataId, this.getText());
+            dataManager.getSettingsManager().saveSettings();
         }
     }
 }

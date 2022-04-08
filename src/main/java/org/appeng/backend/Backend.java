@@ -7,10 +7,12 @@ public class Backend {
 
     public void init(){
         dataManager = new DataManager();
-        communicationsManager = new CommunicationsManager();
+        communicationsManager = new CommunicationsManager(this);
 
         dataManager.init();
         communicationsManager.init();
+
+        communicationsManager.start();
     }
 
     public DataManager getDataManager() {

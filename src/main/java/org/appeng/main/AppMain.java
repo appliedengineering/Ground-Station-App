@@ -25,6 +25,7 @@ public class AppMain {
     public void initWindow() {
 
         backend = new Backend();
+        backend.init();
 
         LookAndFeelManager.setupDarkMode();
 
@@ -50,7 +51,7 @@ public class AppMain {
         window.add(tabbedPaneManager, BorderLayout.CENTER);
 
         // add data pane
-        dataPane = new DataPane();
+        dataPane = new DataPane(backend.getDataManager());
 
         window.add(dataPane, BorderLayout.WEST);
 
