@@ -13,16 +13,23 @@ public class DataManager {
     
     private static final long UPDATE_DELAY = 50L;
     public HashMap<String, List<DataPoint>> boatData;
+    public HashMap<String, Boolean> boatDataBool;
+    public String debugText = "";
     private SettingsManager settingsManager;
+
+    public volatile int boatDataStatus = -1; // -1 = no data, 0 = data
 
     public volatile boolean needsUpdate = false;
 
     private List<UpdateCallback> updateCallbacks = new ArrayList<>();
+    private List<UpdateCallback> updateConfigCallbacks = new ArrayList<>();
+
 
     public DataManager() {
         boatData = new HashMap<>();
+        boatDataBool = new HashMap<>();
         settingsManager = new SettingsManager();
-        startPushingUpdates();
+        //startPushingUpdates();
     }
 
     private void startPushingUpdates() {
@@ -51,8 +58,19 @@ public class DataManager {
         }
     }
 
+    public void pushConfigUpdate(){
+        for (UpdateCallback e :
+                updateConfigCallbacks) {
+            e.onDataUpdate();
+        }
+    }
+
     public void registerCallback(UpdateCallback e){
         updateCallbacks.add(e);
+    }
+
+    public void registerConfigCallback(UpdateCallback e){
+        updateConfigCallbacks.add(e);
     }
 
     public void init() {
@@ -68,9 +86,10 @@ public class DataManager {
         try {
             // First convert the format of the map, make it more friendly
             List<String> keyValues = Arrays.asList(DataParametersConstants.DATA_PROPERTIES_IDS);
+            List<String> boolKeyValues = Arrays.asList(DataParametersConstants.BOOL_PROPERTIES_IDS);
             long timeStamp = getTimestamp(map);
 
-            LogUtil.add(TAG, "Got Data! with timestamp " + timeStamp);
+            LogUtil.add(TAG, "Got Data! with timestamp " + timeStamp, this);
 
             for (Map.Entry<Value, Value> entry : map.entrySet()) {
                 Value key = entry.getKey();
@@ -78,7 +97,7 @@ public class DataManager {
 
                 String keyValue = key.toString();
                 if (keyValues.contains(keyValue)) {
-                    float entryValue = Util.parseFloat(value.toString());
+                    float entryValue = Util.parseFloat(value.toString(), this);
                     DataPoint dataPoint = new DataPoint();
                     dataPoint.x = timeStamp;
                     dataPoint.y = entryValue;
@@ -87,16 +106,21 @@ public class DataManager {
                     // sort data
                     boatData.get(keyValue).sort(Comparator.comparing(p -> p.x));
 
+                } else if (boolKeyValues.contains(keyValue)) {
+                    boolean entryBool = Util.parseBoolean(value.toString(), this);
+                    boatDataBool.put(keyValue, entryBool);
                 }
+
+
 
 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtil.addError("DataManager", "Serious error when parsing data! Corrupted data?");
+            LogUtil.addError("DataManager", "Serious error when parsing data! Corrupted data?", this);
         }
 
-        needsUpdate = true;
+        pushUpdate();
     }
 
     private long getTimestamp(Map<Value, Value> map) {
@@ -105,7 +129,7 @@ public class DataManager {
             Value key = entry.getKey();
             Value value = entry.getValue();
             if (key.toString().equals("timeStamp")) {
-                entryValue = (long) (Util.parseDouble(value.toString().split("E")[0]) * Math.pow(10, 12));
+                entryValue = (long) (Util.parseDouble(value.toString().split("E")[0], this) * Math.pow(10, 12));
 
             }
         }

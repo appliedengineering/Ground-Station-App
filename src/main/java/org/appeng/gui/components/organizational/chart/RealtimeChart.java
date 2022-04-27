@@ -64,14 +64,16 @@ public class RealtimeChart extends JPanel {
     }
 
     public void updateChartWithNewData(List<DataPoint> data){
+
+        if(data == null) return;
+
         int viewRange = 50;
 
         data = data.subList(data.size()-Math.min(data.size(), viewRange), data.size());
         Collections.reverse(data);
 
         List<Double> dataX = new ArrayList<>(), dataY = new ArrayList<>();
-        for (DataPoint dp :
-                data) {
+        for (DataPoint dp : data) {
             dataX.add(dp.x);
             dataY.add(dp.y);
         }

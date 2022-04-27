@@ -44,9 +44,9 @@ public class AppMain {
         // create new panes
         tabbedPaneManager.registerPane(new TabbedPane("Realtime Boat Dashboard", null, backend.getDataManager()));
 
-        tabbedPaneManager.registerPane(new SettingsPane("Settings", null, backend.getDataManager()));
+        tabbedPaneManager.registerPane(new SettingsPane("Settings", null, backend.getDataManager(), backend.getCommunicationsManager()));
 
-        tabbedPaneManager.registerPane(new TabbedPane("panel 3", null, backend.getDataManager()));
+        tabbedPaneManager.registerPane(new DebugPane("Debug </>", null, backend.getDataManager()));
 
         window.add(tabbedPaneManager, BorderLayout.CENTER);
 
@@ -55,11 +55,13 @@ public class AppMain {
 
         window.add(dataPane, BorderLayout.WEST);
 
-        statusBar = new StatusBar();
+        statusBar = new StatusBar(backend.getDataManager());
 
         window.add(statusBar, BorderLayout.SOUTH);
 
         window.setVisible(true);
+
+        backend.start();
     }
 
 

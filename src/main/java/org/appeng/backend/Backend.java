@@ -12,6 +12,9 @@ public class Backend {
         dataManager.init();
         communicationsManager.init();
 
+    }
+
+    public void start(){
         communicationsManager.start();
     }
 

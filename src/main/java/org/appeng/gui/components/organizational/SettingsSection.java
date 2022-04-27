@@ -97,7 +97,6 @@ public class SettingsSection extends JPanel {
         }
 
         private void update(){
-            System.out.println("save settings");
             dataManager.getSettingsManager().settings.setProperty(dataId, this.getText());
             dataManager.getSettingsManager().saveSettings();
         }

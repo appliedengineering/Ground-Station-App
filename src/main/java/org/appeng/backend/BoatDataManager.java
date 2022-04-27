@@ -23,7 +23,11 @@ public class BoatDataManager implements Runnable {
     private ZMQ.Socket boatDataSocket;
     private DataManager dataManager;
 
+    private String connectionString;
+
     public volatile boolean isRunning;
+
+    public int noDataCount = 0;
 
     public BoatDataManager(ZContext context, ZMQ.Socket boatDataSocket, DataManager dataManager) {
         this.context = context;
@@ -33,11 +37,12 @@ public class BoatDataManager implements Runnable {
 
     public boolean connect(String connectionString) {
         try {
+            this.connectionString = connectionString;
             boatDataSocket.connect(connectionString);
             boatDataSocket.subscribe("".getBytes());
-            LogUtil.add(TAG, "Connected!");
+            LogUtil.add(TAG, "Connected!", dataManager);
         } catch (Exception e) {
-            LogUtil.addError(TAG, "Connect error: " + e.getMessage());
+            LogUtil.addError(TAG, "Connect error: " + e.getMessage(), dataManager);
             return false;
         }
         return true;
@@ -48,7 +53,7 @@ public class BoatDataManager implements Runnable {
         try {
             buffer = boatDataSocket.recv(ZMQ.NOBLOCK);
         } catch (ZMQException e) {
-            LogUtil.addError(TAG, "Receive error: " + e.getMessage());
+            LogUtil.addError(TAG, "Receive error: " + e.getMessage(), dataManager);
         }
         return buffer;
     }
@@ -80,14 +85,36 @@ public class BoatDataManager implements Runnable {
                 byte[] data = receiveData();
                 if (data != null) {
                     handleData(data);
+                    noDataCount = 0;
+                    dataManager.boatDataStatus = 0;
+                    dataManager.pushConfigUpdate();
+                } else {
+                    // LogUtil.add(TAG, "No Data!", dataManager);
+                    noDataCount++;
+                    if(noDataCount > 10) {
+                        dataManager.boatDataStatus = -1;
+                        dataManager.pushConfigUpdate();
+                    }
                 }
             } catch (ZMQException e) {
-                LogUtil.addError(TAG, "Network Error: " + e.getMessage());
+                LogUtil.addError(TAG, "Network Error: " + e.getMessage(), dataManager);
             }
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                isRunning = false;
             }
+        }
+
+        disconnect();
+    }
+
+    private void disconnect() {
+        if(connectionString == null) return;
+        try {
+            boatDataSocket.disconnect(connectionString);
+        }catch (ZMQException e) {
+            // unknown host
         }
     }
 }

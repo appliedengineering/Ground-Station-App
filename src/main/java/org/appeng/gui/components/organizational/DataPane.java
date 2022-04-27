@@ -48,10 +48,13 @@ public class DataPane extends JPanel implements UpdateCallback {
 
         contentPane.setBorder(new EmptyBorder(padding, padding, padding, padding));
 
+        int index = 0;
         for (String chartId : DataParametersConstants.DATA_PROPERTIES_IDS) {
-            RealtimeChart newChart = new RealtimeChart(chartId);
+            if(!DataParametersConstants.DATA_PROPERTIES_GRAPH_CONFIG[index]) continue;
+            RealtimeChart newChart = new RealtimeChart(DataParametersConstants.DATA_PROPERTIES_LABELS[index]);
             chartHashMap.put(chartId, newChart);
             contentPane.add(newChart);
+            index++;
         }
 
 
@@ -102,9 +105,9 @@ public class DataPane extends JPanel implements UpdateCallback {
     @Override
     public void onDataUpdate() {
         for (String chartId : DataParametersConstants.DATA_PROPERTIES_IDS) {
-                        RealtimeChart chart = chartHashMap.get(chartId);
-                        if(chart != null)
-                        chart.updateChartWithNewData(dataManager.boatData.get(chartId));
-                    }
+            RealtimeChart chart = chartHashMap.get(chartId);
+            if(chart != null)
+            chart.updateChartWithNewData(dataManager.boatData.get(chartId));
+        }
     }
 }

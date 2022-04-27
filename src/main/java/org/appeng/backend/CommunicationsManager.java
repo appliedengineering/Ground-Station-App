@@ -9,7 +9,7 @@ public class CommunicationsManager {
     ZMQ.Socket boatDataSocket;
     ZMQ.Socket timestampSocket;
 
-    private Runnable boatDataManager;
+    private BoatDataManager boatDataManager;
     private Thread boatDataReceiverThread;
     private Backend backend;
 
@@ -30,6 +30,15 @@ public class CommunicationsManager {
 
     public void startReceivingBoatData(){
         boatDataManager = new BoatDataManager(context, boatDataSocket, backend.getDataManager());
+        boatDataReceiverThread = new Thread(boatDataManager);
+        boatDataReceiverThread.start();
+    }
+
+    public void restartNetworking() throws InterruptedException {
+        boatDataManager.isRunning = false;
+        boatDataReceiverThread.interrupt();
+        boatDataReceiverThread.join();
+
         boatDataReceiverThread = new Thread(boatDataManager);
         boatDataReceiverThread.start();
     }
