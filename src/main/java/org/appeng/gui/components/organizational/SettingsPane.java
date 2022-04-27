@@ -59,6 +59,7 @@ public class SettingsPane extends TabbedPane {
 
 
         editControls = new JPanel();
+        editControls.setOpaque(false);
 
         restartNetworkBtn = new JButton("Restart Network");
 
