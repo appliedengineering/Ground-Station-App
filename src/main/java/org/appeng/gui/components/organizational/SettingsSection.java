@@ -1,6 +1,7 @@
 package org.appeng.gui.components.organizational;
 
 import org.appeng.backend.DataManager;
+import org.appeng.backend.Util;
 import org.appeng.external.SpringUtilities;
 
 import javax.swing.*;
@@ -18,12 +19,14 @@ public class SettingsSection extends JPanel {
     private String[] labels;
     private String[] dataIds;
     private List<SettingsTextField> textFields = new ArrayList<>();
+    private String title;
 
     public SettingsSection(DataManager dataManager) {
         this.dataManager = dataManager;
     }
 
-    public void setFields(String[] labels, String[] dataIds){
+    public void setFields(String title, String[] labels, String[] dataIds){
+        this.title = title;
         this.labels = labels;
         this.dataIds = dataIds;
     }
@@ -36,10 +39,13 @@ public class SettingsSection extends JPanel {
         //Create and populate the panel.
         this.setLayout(new SpringLayout());
         this.setOpaque(false);
-        int padding = 10;
+        int padding = 15;
         this.setBorder(new CompoundBorder(
-                new TitledBorder("Boat Data Networking"),
-                new EmptyBorder(padding, padding, padding, padding)));
+                new EmptyBorder(padding, padding, padding, padding),
+                new CompoundBorder(
+                        new TitledBorder(Util.htmlTagFormatWithSpace(title, "h2")),
+                        new EmptyBorder(padding, padding, padding, padding)
+                )));
         for (int i = 0; i < numPairs; i++) {
             JLabel l = new JLabel(labels[i], JLabel.TRAILING);
             this.add(l);
@@ -98,7 +104,7 @@ public class SettingsSection extends JPanel {
 
         private void update(){
             dataManager.getSettingsManager().settings.setProperty(dataId, this.getText());
-            dataManager.getSettingsManager().saveSettings();
+            dataManager.getSettingsManager().saveSettings(dataManager);
         }
     }
 }

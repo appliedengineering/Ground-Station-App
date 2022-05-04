@@ -1,6 +1,7 @@
 package org.appeng.gui.components.organizational.chart;
 
 import org.appeng.backend.DataPoint;
+import org.appeng.backend.Util;
 import org.knowm.xchart.*;
 
 import javax.swing.*;
@@ -37,6 +38,8 @@ public class RealtimeChart extends JPanel {
         // create Chart
         chart = QuickChart.getChart(chartName, "X", "Y", "defaultSeries", dataX, dataY);
 
+        chart.getStyler().setChartTitleFont(new JLabel().getFont());
+
         Color bg = new Color(60,63,65);
 
         setPreferredSize(new Dimension(300, 150));
@@ -63,11 +66,13 @@ public class RealtimeChart extends JPanel {
         this.add(panel, BorderLayout.CENTER);
     }
 
-    public void updateChartWithNewData(List<DataPoint> data){
+    public void updateChartWithNewData(List<DataPoint> dataRef){
 
-        if(data == null) return;
+        if(dataRef == null) return;
 
         int viewRange = 50;
+
+        List<DataPoint> data = new ArrayList<>(dataRef);
 
         data = data.subList(data.size()-Math.min(data.size(), viewRange), data.size());
         Collections.reverse(data);

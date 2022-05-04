@@ -33,4 +33,12 @@ public class Util {
     public static boolean parseBoolean(String toString, DataManager dataManager) {
         return toString.equalsIgnoreCase("true");
     }
+
+    public static String htmlTagFormat(String text, String tag){
+        return "<html><"+tag+">"+text+"</"+tag+"></html>";
+    }
+
+    public static String htmlTagFormatWithSpace(String text, String tag){
+        return "<html><"+tag+">&nbsp;&nbsp;"+text+"</"+tag+"></html>";
+    }
 }

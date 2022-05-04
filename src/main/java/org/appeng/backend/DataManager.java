@@ -2,9 +2,9 @@ package org.appeng.backend;
 
 
 import org.appeng.constants.DataParametersConstants;
+import org.appeng.data.BoatTripData;
 import org.msgpack.value.Value;
 
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 public class DataManager {
@@ -12,6 +12,9 @@ public class DataManager {
     private static final String TAG = "DataManager";
     
     private static final long UPDATE_DELAY = 50L;
+
+    public List<BoatTripData> boatTripData = new ArrayList<>();
+
     public HashMap<String, List<DataPoint>> boatData;
     public HashMap<String, Boolean> boatDataBool;
     public String debugText = "";
@@ -21,15 +24,15 @@ public class DataManager {
 
     public volatile boolean needsUpdate = false;
 
-    private List<UpdateCallback> updateCallbacks = new ArrayList<>();
-    private List<UpdateCallback> updateConfigCallbacks = new ArrayList<>();
+    private final List<UpdateCallback> updateCallbacks = new ArrayList<>();
+    private final List<UpdateCallback> updateConfigCallbacks = new ArrayList<>();
 
 
     public DataManager() {
         boatData = new HashMap<>();
         boatDataBool = new HashMap<>();
         settingsManager = new SettingsManager();
-        //startPushingUpdates();
+        startPushingUpdates();
     }
 
     private void startPushingUpdates() {
@@ -37,10 +40,10 @@ public class DataManager {
             @Override
             public void run() {
                 while(true) {
-                    if (needsUpdate) {
+                    // if (needsUpdate) {
                         pushUpdate();
                         needsUpdate = false;
-                    }
+                    // }
                     try {
                         Thread.sleep(UPDATE_DELAY);
                     } catch (InterruptedException e) {
@@ -74,7 +77,7 @@ public class DataManager {
     }
 
     public void init() {
-        settingsManager.loadSettings();
+        settingsManager.loadSettings(this);
     }
 
     public SettingsManager getSettingsManager() {
@@ -135,4 +138,6 @@ public class DataManager {
         }
         return entryValue;
     }
+
+
 }

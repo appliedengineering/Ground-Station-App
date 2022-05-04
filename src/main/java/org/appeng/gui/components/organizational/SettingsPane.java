@@ -45,15 +45,16 @@ public class SettingsPane extends TabbedPane {
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 
         boatDataNetworkSettings = new SettingsSection(dataManager);
-        boatDataNetworkSettings.setFields(boatDataNetworkLabels, boatDataNetworkDataIds);
+        boatDataNetworkSettings.setFields("Boat Data Network", boatDataNetworkLabels, boatDataNetworkDataIds);
         boatDataNetworkSettings.init();
 
         timestampNetworkSettings = new SettingsSection(dataManager);
-        timestampNetworkSettings.setFields(timeStampNetworkLabels, timeStampNetworkDataIds);
+        timestampNetworkSettings.setFields("Timestamp Data Network", timeStampNetworkLabels, timeStampNetworkDataIds);
         timestampNetworkSettings.init();
 
         container.add(boatDataNetworkSettings);
         container.add(timestampNetworkSettings);
+
 
         this.add(container, BorderLayout.NORTH);
 

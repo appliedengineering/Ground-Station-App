@@ -42,7 +42,10 @@ public class AppMain {
         tabbedPaneManager = new TabbedPaneManager();
 
         // create new panes
-        tabbedPaneManager.registerPane(new TabbedPane("Realtime Boat Dashboard", null, backend.getDataManager()));
+        tabbedPaneManager.registerPane(new DashboardView("Realtime Boat Dashboard", null, backend.getDataManager()));
+
+        tabbedPaneManager.registerPane(new BoatTripRecording("Boat Trip Recording", null, backend.getDataManager()));
+
 
         tabbedPaneManager.registerPane(new SettingsPane("Settings", null, backend.getDataManager(), backend.getCommunicationsManager()));
 

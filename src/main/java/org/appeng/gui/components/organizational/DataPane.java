@@ -50,10 +50,11 @@ public class DataPane extends JPanel implements UpdateCallback {
 
         int index = 0;
         for (String chartId : DataParametersConstants.DATA_PROPERTIES_IDS) {
-            if(!DataParametersConstants.DATA_PROPERTIES_GRAPH_CONFIG[index]) continue;
-            RealtimeChart newChart = new RealtimeChart(DataParametersConstants.DATA_PROPERTIES_LABELS[index]);
-            chartHashMap.put(chartId, newChart);
-            contentPane.add(newChart);
+            if(DataParametersConstants.DATA_PROPERTIES_GRAPH_CONFIG[index]) {
+                RealtimeChart newChart = new RealtimeChart(DataParametersConstants.DATA_PROPERTIES_LABELS[index]);
+                chartHashMap.put(chartId, newChart);
+                contentPane.add(newChart);
+            }
             index++;
         }
 

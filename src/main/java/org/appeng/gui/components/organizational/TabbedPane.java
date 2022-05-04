@@ -2,6 +2,7 @@ package org.appeng.gui.components.organizational;
 
 import org.appeng.backend.DataManager;
 import org.appeng.backend.UpdateCallback;
+import org.appeng.backend.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class TabbedPane extends JPanel {
     }
 
     public TabbedPane(String title, Icon icon, DataManager dataManager) {
-        this.title = title;
+        this.title = Util.htmlTagFormat(title, "h3");
         this.icon = icon;
         this.dataManager = dataManager;
 
