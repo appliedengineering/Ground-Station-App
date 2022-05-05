@@ -1,6 +1,7 @@
 package org.appeng.data;
 
 import org.appeng.backend.DataManager;
+import org.appeng.backend.LogUtil;
 import org.appeng.backend.Util;
 import org.appeng.gui.components.organizational.BoatTripRecording;
 
@@ -10,23 +11,30 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class BoatTripData {
-    private String tripId;
-    private String tripName;
+
+    private static final String TAG = "BoatTripData";
+
+    private String tripId = "id";
+    private String tripName = "name";
     private int status; // -1 = has not recorded, 0 = finished recording, 1 = during recording
 
 
     public BoatTripData(String serializedData, DataManager dataManager) {
-        String[] tokens = serializedData.split(";");
-        tripId = tokens[0];
-        tripName = tokens[1];
-        status = (int) Util.parseFloat(tokens[2], dataManager);
+        try {
+            String[] tokens = serializedData.split(";");
+            tripId = tokens[0];
+            tripName = tokens[1];
+            status = (int) Util.parseFloat(tokens[2], dataManager);
+        }catch (Exception e) {
+            LogUtil.addError(TAG, "Failed to parse boat trip data (corrupted?)", dataManager);
+        }
 
     }
 
     public BoatTripData(){
         tripId = UUID.randomUUID().toString();
         LocalDateTime now = LocalDateTime.now();
-        String formattedTime = now.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh : mm : ss a", Locale.ENGLISH));
+        String formattedTime = now.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy", Locale.US));
         tripName = formattedTime;
         status = -1;
     }

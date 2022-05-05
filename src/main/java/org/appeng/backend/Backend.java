@@ -16,6 +16,7 @@ public class Backend {
 
     public void start(){
         communicationsManager.start();
+        dataManager.start();
     }
 
     public DataManager getDataManager() {

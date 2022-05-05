@@ -37,6 +37,10 @@ public class BoatTripRecording extends TabbedPane implements UpdateCallback {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BoatTripData newTrip = new BoatTripData();
+                dataManager.boatTripData.add(newTrip);
+                dataManager.getSettingsManager().settings.setProperty(SettingsConstants.currentRecordingId, newTrip.getTripId());
+                dataManager.getSettingsManager().saveSettings(dataManager);
+
             }
         });
 

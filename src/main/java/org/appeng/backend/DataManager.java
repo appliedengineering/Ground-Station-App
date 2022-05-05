@@ -32,7 +32,6 @@ public class DataManager {
         boatData = new HashMap<>();
         boatDataBool = new HashMap<>();
         settingsManager = new SettingsManager();
-        startPushingUpdates();
     }
 
     private void startPushingUpdates() {
@@ -55,8 +54,7 @@ public class DataManager {
 
 
     public void pushUpdate(){
-        for (UpdateCallback e :
-                updateCallbacks) {
+        for (UpdateCallback e : updateCallbacks) {
             e.onDataUpdate();
         }
     }
@@ -140,4 +138,7 @@ public class DataManager {
     }
 
 
+    public void start() {
+        startPushingUpdates();
+    }
 }

@@ -35,6 +35,9 @@ public class SettingsManager {
         if(recordingIds != null) {
             dataManager.boatTripData = parseBoatTripData(recordingIds, dataManager);
         }
+        for(BoatTripData trip : dataManager.boatTripData) {
+            System.out.println(trip.toString());
+        }
         saveSettings(dataManager);
     }
 
@@ -45,7 +48,7 @@ public class SettingsManager {
             return boatTripDataList;
         }
 
-        for (String dataToken : data.split("\n")) {
+        for (String dataToken : data.split("\"\"")) {
             boatTripDataList.add(new BoatTripData(dataToken, dataManager));
         }
         return boatTripDataList;
@@ -57,7 +60,7 @@ public class SettingsManager {
         }
         StringBuilder text = new StringBuilder();
         for (BoatTripData boatTrip : data) {
-            text.append(boatTrip.toString());
+            text.append(boatTrip.toString()).append("\"\"");
         }
         return text.toString();
     }
