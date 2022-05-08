@@ -22,13 +22,4 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
-.idea/vcs.xml
-.idea/uiDesigner.xml
-.idea/uiDesigner.xml
-.idea/misc.xml
-.idea/libraries/Maven__com_formdev_flatlaf_2_0_2.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/Maven__com_formdev_flatlaf_intellij_themes_2_0_2.xml
-.idea/libraries/Maven__eu_neilalexander_jnacl_1_0_0.xml
-.idea/libraries/Maven__org_zeromq_jeromq_0_5_2.xml
+.idea
