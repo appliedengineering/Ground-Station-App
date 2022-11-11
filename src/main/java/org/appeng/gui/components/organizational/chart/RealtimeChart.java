@@ -59,6 +59,8 @@ public class RealtimeChart extends JPanel {
         chart.getStyler().setAxisTitlesVisible(false);
         chart.getStyler().setChartTitleVisible(true);
         chart.getStyler().setPlotBorderVisible(false);
+        chart.getStyler().setYAxisTicksVisible(true);
+        chart.getStyler().setYAxisDecimalPattern("#");
 
         panel = new XChartPanel<>(chart);
 
