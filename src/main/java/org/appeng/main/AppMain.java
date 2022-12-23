@@ -28,6 +28,7 @@ public class AppMain {
         backend.init();
 
         LookAndFeelManager.setupDarkMode();
+        LookAndFeelManager.setupScaling();
 
         window = new AppWindow();
         window.setTitle("Applied Engineering Ground Station App");
